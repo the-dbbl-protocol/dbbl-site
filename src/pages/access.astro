@@ -1,0 +1,217 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Request Access"
+  description="Apply for access to The DBBL Protocol — the cross-platform identity reputation network for safer online communities."
+>
+
+  <!-- Page header -->
+  <section class="pt-20 pb-12 px-6 border-b border-zinc-800/40">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-4">Limited Access</div>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Request Access</h1>
+      <p class="text-slate-400 text-lg max-w-2xl leading-relaxed">
+        The DBBL Protocol is currently onboarding platforms through a limited access program.
+        Tell us about your platform and how you plan to use the network.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-5 gap-16">
+
+    <!-- Form -->
+    <div class="md:col-span-3">
+      <h2 class="text-xl font-bold text-white mb-8">Platform Application</h2>
+
+      <form
+        action="mailto:access@dbblprotocol.org"
+        method="POST"
+        enctype="text/plain"
+        class="space-y-6"
+      >
+        <div>
+          <label for="platform-name" class="block text-sm font-medium text-slate-300 mb-2">
+            Platform Name <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="text"
+            id="platform-name"
+            name="Platform Name"
+            required
+            placeholder="e.g. Jaydslist"
+            class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors text-sm"
+          />
+        </div>
+
+        <div>
+          <label for="website" class="block text-sm font-medium text-slate-300 mb-2">
+            Website <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="url"
+            id="website"
+            name="Website"
+            required
+            placeholder="https://yourplatform.com"
+            class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors text-sm"
+          />
+        </div>
+
+        <div>
+          <label for="contact-email" class="block text-sm font-medium text-slate-300 mb-2">
+            Contact Email <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="email"
+            id="contact-email"
+            name="Contact Email"
+            required
+            placeholder="admin@yourplatform.com"
+            class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors text-sm"
+          />
+        </div>
+
+        <div>
+          <label for="platform-type" class="block text-sm font-medium text-slate-300 mb-2">
+            Platform Type <span class="text-red-400">*</span>
+          </label>
+          <select
+            id="platform-type"
+            name="Platform Type"
+            required
+            class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-cyan-500 transition-colors text-sm appearance-none"
+          >
+            <option value="" disabled selected>Select a type...</option>
+            <option value="dating">Dating / Relationship App</option>
+            <option value="marketplace">Gig or Marketplace Platform</option>
+            <option value="gaming">Gaming Community</option>
+            <option value="social">Social / Community Platform</option>
+            <option value="creator">Creator Platform</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="use-case" class="block text-sm font-medium text-slate-300 mb-2">
+            How will you use the DBBL Protocol? <span class="text-red-400">*</span>
+          </label>
+          <textarea
+            id="use-case"
+            name="Use Case"
+            required
+            rows="5"
+            placeholder="Describe your moderation program, the types of violations you handle, and how you plan to integrate DBBL — both querying scores and submitting violations..."
+            class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors text-sm resize-none leading-relaxed"
+          ></textarea>
+          <p class="text-xs text-slate-600 mt-2">
+            Member platforms are expected to both query scores <em>and</em> contribute confirmed violations.
+            Contribution is what makes the network valuable.
+          </p>
+        </div>
+
+        <div>
+          <label for="monthly-users" class="block text-sm font-medium text-slate-300 mb-2">
+            Approximate monthly active users
+          </label>
+          <select
+            id="monthly-users"
+            name="Monthly Active Users"
+            class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-cyan-500 transition-colors text-sm appearance-none"
+          >
+            <option value="" disabled selected>Select a range...</option>
+            <option value="under-1k">Under 1,000</option>
+            <option value="1k-10k">1,000 – 10,000</option>
+            <option value="10k-100k">10,000 – 100,000</option>
+            <option value="100k-1m">100,000 – 1,000,000</option>
+            <option value="over-1m">Over 1,000,000</option>
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-cyan-400 text-zinc-950 font-semibold py-3.5 rounded-lg hover:bg-cyan-300 transition-colors text-sm"
+        >
+          Submit Application
+        </button>
+
+        <p class="text-xs text-slate-600 text-center">
+          Submitting opens your email client pre-filled with your responses.
+          Alternatively, send your application directly to
+          <a href="mailto:access@dbblprotocol.org" class="text-slate-500 hover:text-slate-400 transition-colors font-mono">access@dbblprotocol.org</a>.
+        </p>
+      </form>
+    </div>
+
+    <!-- Sidebar: What to expect -->
+    <div class="md:col-span-2 space-y-8">
+
+      <div>
+        <h2 class="text-xl font-bold text-white mb-6">What Happens Next</h2>
+        <ol class="space-y-6">
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-cyan-400/15 border border-cyan-400/30 flex items-center justify-center text-xs font-mono font-bold text-cyan-400">1</span>
+            <div>
+              <div class="font-semibold text-white text-sm mb-1">Application Review</div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                We review your platform to ensure it has an active moderation program and a genuine
+                use case for the network.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-cyan-400/15 border border-cyan-400/30 flex items-center justify-center text-xs font-mono font-bold text-cyan-400">2</span>
+            <div>
+              <div class="font-semibold text-white text-sm mb-1">Onboarding Call</div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                For most platforms we'll schedule a brief call to discuss integration, contribution
+                expectations, and answer questions.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-cyan-400/15 border border-cyan-400/30 flex items-center justify-center text-xs font-mono font-bold text-cyan-400">3</span>
+            <div>
+              <div class="font-semibold text-white text-sm mb-1">API Key Issued</div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                You'll receive a one-time API key to begin integration. All platforms start as
+                <span class="font-mono text-slate-300">provisional</span> with a trust score of 0.5.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+        <h3 class="font-semibold text-white mb-4 text-sm">Membership Requirements</h3>
+        <ul class="space-y-3 text-sm text-slate-400">
+          <li class="flex gap-2">
+            <span class="text-cyan-400 mt-0.5">→</span>
+            Active moderation program with confirmed violation tracking
+          </li>
+          <li class="flex gap-2">
+            <span class="text-cyan-400 mt-0.5">→</span>
+            Willing to both query <em>and</em> contribute confirmed violations
+          </li>
+          <li class="flex gap-2">
+            <span class="text-cyan-400 mt-0.5">→</span>
+            Real users with a genuine safety use case
+          </li>
+          <li class="flex gap-2">
+            <span class="text-cyan-400 mt-0.5">→</span>
+            Agreement to submit only confirmed violations (not pending reports)
+          </li>
+        </ul>
+      </div>
+
+      <div class="text-sm text-slate-500">
+        <p>Questions before applying?</p>
+        <a href="mailto:hello@dbblprotocol.org" class="font-mono text-slate-400 hover:text-white transition-colors">
+          hello@dbblprotocol.org
+        </a>
+      </div>
+    </div>
+
+  </div>
+</Layout>

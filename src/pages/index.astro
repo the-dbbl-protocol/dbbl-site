@@ -1,0 +1,314 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Home">
+
+  <!-- Hero -->
+  <section class="relative pt-28 pb-24 px-6 text-center overflow-hidden">
+    <!-- Glow -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div class="w-[600px] h-[400px] bg-cyan-500/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-full px-4 py-1.5 mb-8">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        <span class="text-xs font-mono text-slate-400 tracking-wide">Limited access · Now accepting applications</span>
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-6">
+        Know Who You're<br />
+        <span class="text-cyan-400">Letting In</span>
+      </h1>
+
+      <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+        The DBBL Protocol is a shared reputation network for online platforms.
+        Submit confirmed violations, query risk scores, and collectively protect your
+        communities from repeat bad actors.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="/access"
+          class="bg-cyan-400 text-zinc-950 font-semibold px-8 py-3.5 rounded-md hover:bg-cyan-300 transition-colors text-sm"
+        >
+          Request Access
+        </a>
+        <a
+          href="/scoring"
+          class="border border-zinc-700 text-slate-300 font-semibold px-8 py-3.5 rounded-md hover:border-zinc-500 hover:text-white transition-colors text-sm"
+        >
+          View Scoring Model
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <section class="border-y border-zinc-800/60 bg-zinc-900/30">
+    <div class="max-w-6xl mx-auto px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div>
+        <div class="text-2xl font-bold text-white font-mono">5</div>
+        <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Violation Categories</div>
+      </div>
+      <div>
+        <div class="text-2xl font-bold text-white font-mono">0–100</div>
+        <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Risk Scale</div>
+      </div>
+      <div>
+        <div class="text-2xl font-bold text-white font-mono">SHA-256</div>
+        <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Identity Hashing</div>
+      </div>
+      <div>
+        <div class="text-2xl font-bold text-white font-mono">60s</div>
+        <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Score Cache TTL</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Problem -->
+  <section class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="max-w-3xl">
+        <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-4">The Problem</div>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+          Bad Actors Don't Stay Banned
+        </h2>
+        <p class="text-slate-400 text-lg leading-relaxed mb-6">
+          Your moderation team bans a user for harassment. They create a new account on your platform
+          next week — or sign up for a competitor tomorrow. Every platform fights this battle alone,
+          rebuilding context that already exists elsewhere.
+        </p>
+        <p class="text-slate-400 text-lg leading-relaxed">
+          The DBBL Protocol changes that. Platforms that submit confirmed violations collectively build
+          a shared risk signal — weighted, time-decayed, and privacy-preserving — that any member
+          platform can query before granting access.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-24 px-6 bg-zinc-900/20 border-y border-zinc-800/40">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-4">How It Works</div>
+        <h2 class="text-3xl md:text-4xl font-bold text-white">Three Steps to Shared Safety</h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Step 1 -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8 relative">
+          <div class="text-5xl font-mono font-bold text-zinc-800 mb-6 select-none">01</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Submit Violations</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            When your platform confirms a bad actor, submit their hashed identity signals —
+            phone, email, or username — along with the violation category and severity.
+            Raw PII never leaves your system.
+          </p>
+          <div class="mt-6 pt-6 border-t border-zinc-800">
+            <span class="text-xs font-mono text-zinc-600">POST /v1/reports</span>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8 relative">
+          <div class="text-5xl font-mono font-bold text-zinc-800 mb-6 select-none">02</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Score Is Calculated</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            The Protocol weighs each report by severity, recency, and your platform's trust score.
+            Time decay ensures stale reports carry less weight. Diminishing returns prevent
+            any single platform from dominating the score.
+          </p>
+          <div class="mt-6 pt-6 border-t border-zinc-800">
+            <span class="text-xs font-mono text-zinc-600">Weighted 0–100</span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8 relative">
+          <div class="text-5xl font-mono font-bold text-zinc-800 mb-6 select-none">03</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Query Before Admitting</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Before a user accesses your platform, query the Protocol with their hashed signals.
+            Receive a risk score, dimensional breakdown by violation type, and a confidence level.
+            Your platform decides how to act.
+          </p>
+          <div class="mt-6 pt-6 border-t border-zinc-800">
+            <span class="text-xs font-mono text-zinc-600">GET /v1/scores</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases -->
+  <section class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-4">Use Cases</div>
+        <h2 class="text-3xl md:text-4xl font-bold text-white">Built for Platforms That Take Safety Seriously</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
+          <div class="text-2xl mb-4">💬</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Dating &amp; Social Apps</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            A user who sent unsolicited explicit content on one platform has a high score in that
+            category. Surface this before the first incident on yours — not after a user files a report.
+          </p>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
+          <div class="text-2xl mb-4">🛒</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Gig &amp; Marketplace Platforms</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Sellers removed for fraud or harassment don't get a clean slate when they register on a
+            competing platform. Shared reputation closes the revolving door.
+          </p>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
+          <div class="text-2xl mb-4">🎮</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Gaming Communities</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Known griefers, cheaters, and account sellers leave a trail across platforms.
+            The DBBL Protocol aggregates that trail into a queryable signal before you invest
+            in a new account.
+          </p>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
+          <div class="text-2xl mb-4">🏘️</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Creator &amp; Community Platforms</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Protect your moderators and community members from known harassers before they cause harm.
+            Confidential dimensional scores let you act without broadcasting details.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Risk Rating Preview -->
+  <section class="py-24 px-6 bg-zinc-900/20 border-y border-zinc-800/40">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-4">Risk Ratings</div>
+        <h2 class="text-3xl font-bold text-white mb-3">Five Levels of Clarity</h2>
+        <p class="text-slate-400 max-w-xl mx-auto">
+          Every score maps to a named rating so your platform can act without needing to tune thresholds.
+        </p>
+      </div>
+
+      <!-- Rating scale bar -->
+      <div class="max-w-3xl mx-auto mb-8">
+        <div class="h-3 rounded-full overflow-hidden" style="background: linear-gradient(to right, #22c55e, #eab308, #f97316, #ef4444, #7f1d1d)"></div>
+        <div class="flex justify-between text-xs font-mono text-slate-600 mt-2">
+          <span>0</span>
+          <span>10</span>
+          <span>30</span>
+          <span>60</span>
+          <span>85</span>
+          <span>100</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-3xl mx-auto">
+        <div class="text-center">
+          <div class="w-10 h-10 rounded-full bg-green-500/15 border border-green-500/30 flex items-center justify-center mx-auto mb-2">
+            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+          </div>
+          <div class="text-xs font-mono text-green-500 font-semibold">CLEAR</div>
+          <div class="text-xs text-slate-600 mt-1">0–10</div>
+        </div>
+        <div class="text-center">
+          <div class="w-10 h-10 rounded-full bg-yellow-400/15 border border-yellow-400/30 flex items-center justify-center mx-auto mb-2">
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+          </div>
+          <div class="text-xs font-mono text-yellow-400 font-semibold">FLAGGED</div>
+          <div class="text-xs text-slate-600 mt-1">11–30</div>
+        </div>
+        <div class="text-center">
+          <div class="w-10 h-10 rounded-full bg-orange-400/15 border border-orange-400/30 flex items-center justify-center mx-auto mb-2">
+            <div class="w-3 h-3 rounded-full bg-orange-400"></div>
+          </div>
+          <div class="text-xs font-mono text-orange-400 font-semibold">CAUTIONED</div>
+          <div class="text-xs text-slate-600 mt-1">31–60</div>
+        </div>
+        <div class="text-center">
+          <div class="w-10 h-10 rounded-full bg-red-500/15 border border-red-500/30 flex items-center justify-center mx-auto mb-2">
+            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+          </div>
+          <div class="text-xs font-mono text-red-500 font-semibold">RESTRICTED</div>
+          <div class="text-xs text-slate-600 mt-1">61–85</div>
+        </div>
+        <div class="text-center">
+          <div class="w-10 h-10 rounded-full bg-red-900/30 border border-red-900/50 flex items-center justify-center mx-auto mb-2">
+            <div class="w-3 h-3 rounded-full bg-red-900"></div>
+          </div>
+          <div class="text-xs font-mono text-red-800 font-semibold">BLACKLISTED</div>
+          <div class="text-xs text-slate-600 mt-1">86–100</div>
+        </div>
+      </div>
+
+      <div class="text-center mt-10">
+        <a href="/scoring" class="text-sm text-cyan-400 hover:text-cyan-300 transition-colors font-mono">
+          Full scoring model →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy commitment -->
+  <section class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-10 md:p-16">
+        <div class="max-w-3xl">
+          <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-4">Privacy by Design</div>
+          <h2 class="text-3xl font-bold text-white mb-6">
+            We Never Need to Know Who Someone Is
+          </h2>
+          <p class="text-slate-400 text-lg leading-relaxed mb-6">
+            Identity signals are hashed by your platform before transmission. The DBBL Protocol stores
+            cryptographic fingerprints — not names, email addresses, or phone numbers.
+            A person's real identity is never derivable from DBBL data alone.
+          </p>
+          <p class="text-slate-400 leading-relaxed mb-8">
+            Phone numbers are normalized to E.164 format before hashing. Email addresses are
+            normalized to prevent alias evasion. Usernames are the only plaintext signal stored,
+            and only because fuzzy matching requires it — they're never tied to real identity
+            without a corroborating hash signal.
+          </p>
+          <a href="/privacy" class="text-sm text-cyan-400 hover:text-cyan-300 transition-colors font-mono">
+            Read the full privacy commitment →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Request access CTA -->
+  <section class="py-24 px-6 bg-zinc-900/20 border-t border-zinc-800/40">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-4">Limited Access</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+        Ready to Join the Network?
+      </h2>
+      <p class="text-slate-400 text-lg leading-relaxed mb-10">
+        The DBBL Protocol is currently in limited access. We're onboarding platforms with active
+        moderation programs that are willing to contribute confirmed violations as well as query scores.
+        Mutual contribution is what makes the network valuable.
+      </p>
+      <a
+        href="/access"
+        class="inline-block bg-cyan-400 text-zinc-950 font-semibold px-10 py-4 rounded-md hover:bg-cyan-300 transition-colors text-sm"
+      >
+        Apply for Access
+      </a>
+    </div>
+  </section>
+
+</Layout>

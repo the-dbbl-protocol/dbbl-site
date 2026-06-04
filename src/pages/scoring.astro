@@ -1,0 +1,363 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Scoring Model"
+  description="How The DBBL Protocol calculates risk scores — category weights, severity multipliers, time decay, and platform trust weighting."
+>
+
+  <!-- Page header -->
+  <section class="pt-20 pb-12 px-6 border-b border-zinc-800/40">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-4">Scoring Model</div>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">How Risk Scores Are Calculated</h1>
+      <p class="text-slate-400 text-lg max-w-3xl leading-relaxed">
+        Scores are deterministic, auditable, and transparent. Every input to the model is documented here.
+        Platform members can understand exactly why a given score was calculated.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-6 py-16 space-y-20">
+
+    <!-- Risk Ratings -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-2">Risk Ratings</h2>
+      <p class="text-slate-400 mb-8">
+        Scores range from 0 to 100. Each score maps to a named rating your platform can act on directly.
+      </p>
+
+      <!-- Gradient bar -->
+      <div class="mb-8 max-w-2xl">
+        <div class="h-4 rounded-full overflow-hidden" style="background: linear-gradient(to right, #22c55e 0%, #22c55e 10%, #eab308 30%, #f97316 60%, #ef4444 85%, #7f1d1d 100%)"></div>
+        <div class="flex justify-between text-xs font-mono text-slate-600 mt-2">
+          <span>0</span>
+          <span>10</span>
+          <span>30</span>
+          <span>60</span>
+          <span>85</span>
+          <span>100</span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-zinc-800 text-left">
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider pr-6">Rating</th>
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider pr-6">Score Range</th>
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Recommended Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800/50">
+            <tr>
+              <td class="py-4 pr-6">
+                <span class="inline-flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                  <span class="font-mono font-semibold text-green-500">clear</span>
+                </span>
+              </td>
+              <td class="py-4 pr-6 font-mono text-slate-400">0–10</td>
+              <td class="py-4 text-slate-400">No meaningful history. Treat as unknown; no action required.</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6">
+                <span class="inline-flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+                  <span class="font-mono font-semibold text-yellow-400">flagged</span>
+                </span>
+              </td>
+              <td class="py-4 pr-6 font-mono text-slate-400">11–30</td>
+              <td class="py-4 text-slate-400">Some reports on record. Consider light friction or passive monitoring.</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6">
+                <span class="inline-flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-orange-400"></span>
+                  <span class="font-mono font-semibold text-orange-400">cautioned</span>
+                </span>
+              </td>
+              <td class="py-4 pr-6 font-mono text-slate-400">31–60</td>
+              <td class="py-4 text-slate-400">A pattern is emerging. Consider additional verification or restricted access.</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6">
+                <span class="inline-flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                  <span class="font-mono font-semibold text-red-500">restricted</span>
+                </span>
+              </td>
+              <td class="py-4 pr-6 font-mono text-slate-400">61–85</td>
+              <td class="py-4 text-slate-400">Significant confirmed history. Recommend: deny access or require human review.</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6">
+                <span class="inline-flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-red-900"></span>
+                  <span class="font-mono font-semibold text-red-800">blacklisted</span>
+                </span>
+              </td>
+              <td class="py-4 pr-6 font-mono text-slate-400">86–100</td>
+              <td class="py-4 text-slate-400">Severe or repeated violations across multiple platforms. Block.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- How scoring works -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-2">Calculation Overview</h2>
+      <p class="text-slate-400 mb-8">
+        A score is calculated from all confirmed reports for an identity. Each report contributes to a
+        dimensional score (per violation category), which are then combined into a composite 0–100 score.
+      </p>
+
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
+        <ol class="space-y-6">
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-cyan-400/15 border border-cyan-400/30 flex items-center justify-center text-xs font-mono font-bold text-cyan-400">1</span>
+            <div>
+              <div class="font-semibold text-white text-sm mb-1">Per-report weight</div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Each report is assigned a base weight from its <strong class="text-slate-300">severity multiplier</strong>,
+                then multiplied by the submitting platform's <strong class="text-slate-300">trust score</strong> (0–1),
+                then by a <strong class="text-slate-300">time decay factor</strong> based on report age.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-cyan-400/15 border border-cyan-400/30 flex items-center justify-center text-xs font-mono font-bold text-cyan-400">2</span>
+            <div>
+              <div class="font-semibold text-white text-sm mb-1">Diminishing returns per platform</div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                For each platform submitting multiple reports, each additional report carries
+                <strong class="text-slate-300">0.8×</strong> the weight of the previous one.
+                This prevents a single platform from overwhelming the score.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-cyan-400/15 border border-cyan-400/30 flex items-center justify-center text-xs font-mono font-bold text-cyan-400">3</span>
+            <div>
+              <div class="font-semibold text-white text-sm mb-1">Dimensional scores</div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Weighted report values are accumulated per violation category to produce
+                five independent dimensional scores (0–100 each), then normalized.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-cyan-400/15 border border-cyan-400/30 flex items-center justify-center text-xs font-mono font-bold text-cyan-400">4</span>
+            <div>
+              <div class="font-semibold text-white text-sm mb-1">Composite score</div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Dimensional scores are combined using <strong class="text-slate-300">category weights</strong>
+                (see table below) into a single 0–100 composite score. This is the score returned by
+                <code class="text-xs bg-zinc-800 px-1.5 py-0.5 rounded font-mono">GET /v1/scores</code>.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Category Weights -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-2">Category Weights</h2>
+      <p class="text-slate-400 mb-8">
+        Five violation categories contribute to the composite score. Weights reflect the severity of harm
+        associated with each category. Weights sum to 1.0.
+      </p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-zinc-800 text-left">
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider pr-6">Category</th>
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider pr-6">Weight</th>
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Description</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800/50">
+            <tr>
+              <td class="py-4 pr-6 font-mono text-slate-300">harassment</td>
+              <td class="py-4 pr-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-24 h-2 bg-zinc-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-cyan-400 rounded-full" style="width: 30%"></div>
+                  </div>
+                  <span class="font-mono text-white font-semibold">0.30</span>
+                </div>
+              </td>
+              <td class="py-4 text-slate-400">Direct targeting, threats, sustained unwanted contact</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6 font-mono text-slate-300">fake_profile</td>
+              <td class="py-4 pr-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-24 h-2 bg-zinc-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-cyan-400 rounded-full" style="width: 25%"></div>
+                  </div>
+                  <span class="font-mono text-white font-semibold">0.25</span>
+                </div>
+              </td>
+              <td class="py-4 text-slate-400">Identity fraud, impersonation, sockpuppet accounts</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6 font-mono text-slate-300">explicit_content</td>
+              <td class="py-4 pr-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-24 h-2 bg-zinc-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-cyan-400 rounded-full" style="width: 20%"></div>
+                  </div>
+                  <span class="font-mono text-white font-semibold">0.20</span>
+                </div>
+              </td>
+              <td class="py-4 text-slate-400">Unsolicited explicit material, non-consensual sharing</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6 font-mono text-slate-300">unsolicited_dm</td>
+              <td class="py-4 pr-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-24 h-2 bg-zinc-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-cyan-400 rounded-full" style="width: 15%"></div>
+                  </div>
+                  <span class="font-mono text-white font-semibold">0.15</span>
+                </div>
+              </td>
+              <td class="py-4 text-slate-400">Unsolicited direct messages, repeated unwanted outreach</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6 font-mono text-slate-300">spam</td>
+              <td class="py-4 pr-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-24 h-2 bg-zinc-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-cyan-400 rounded-full" style="width: 10%"></div>
+                  </div>
+                  <span class="font-mono text-white font-semibold">0.10</span>
+                </div>
+              </td>
+              <td class="py-4 text-slate-400">Mass unsolicited messages, automated bulk activity</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Severity Multipliers -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-2">Severity Multipliers</h2>
+      <p class="text-slate-400 mb-8">
+        Each report is submitted with a severity level. The severity multiplier scales the
+        report's contribution to the score.
+      </p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-zinc-800 text-left">
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider pr-6">Severity</th>
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider pr-6">Multiplier</th>
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Use when</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800/50">
+            <tr>
+              <td class="py-4 pr-6 font-mono text-slate-300">low</td>
+              <td class="py-4 pr-6 font-mono text-white font-semibold">0.5×</td>
+              <td class="py-4 text-slate-400">Minor policy violation, first-time, low impact</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6 font-mono text-slate-300">medium</td>
+              <td class="py-4 pr-6 font-mono text-white font-semibold">1.0×</td>
+              <td class="py-4 text-slate-400">Clear violation, confirmed intent, single incident</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6 font-mono text-slate-300">high</td>
+              <td class="py-4 pr-6 font-mono text-white font-semibold">1.75×</td>
+              <td class="py-4 text-slate-400">Serious violation, pattern of behavior, or victim impact</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6 font-mono text-slate-300">critical</td>
+              <td class="py-4 pr-6 font-mono text-white font-semibold">3.0×</td>
+              <td class="py-4 text-slate-400">Extreme violation, illegal content, credible threat, CSAM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Score Modifiers -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-8">Score Modifiers</h2>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <h3 class="font-semibold text-white mb-3">Time Decay</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Reports older than 365 days carry reduced weight. The decay factor reaches a floor of
+            <strong class="text-slate-300">0.2</strong> — old reports never drop to zero.
+            Recent confirmed behavior is weighted most heavily.
+          </p>
+        </div>
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <h3 class="font-semibold text-white mb-3">Platform Trust</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Each report is weighted by the submitting platform's trust score (0–1).
+            All platforms start at <strong class="text-slate-300">0.5</strong>. Platforms
+            that consistently submit accurate reports earn higher trust over time.
+          </p>
+        </div>
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <h3 class="font-semibold text-white mb-3">Diminishing Returns</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Each additional report from the same platform carries
+            <strong class="text-slate-300">0.8×</strong> the weight of the previous one.
+            Prevents a single platform from dominating an identity's score.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Confidence Levels -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-2">Confidence Levels</h2>
+      <p class="text-slate-400 mb-8">
+        Alongside the score, the API returns a confidence level reflecting how much corroborating
+        evidence exists. A high score with low confidence may warrant more caution interpreting it.
+      </p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-zinc-800 text-left">
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider pr-6">Confidence</th>
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider pr-6">Condition</th>
+              <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Interpretation</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800/50">
+            <tr>
+              <td class="py-4 pr-6 font-mono text-yellow-400">low</td>
+              <td class="py-4 pr-6 text-slate-400">Fewer than 3 confirmed reports</td>
+              <td class="py-4 text-slate-400">Limited data. Score reflects few data points — treat with caution.</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6 font-mono text-orange-400">medium</td>
+              <td class="py-4 pr-6 text-slate-400">3+ reports, fewer than 3 contributing platforms</td>
+              <td class="py-4 text-slate-400">Pattern established but corroboration is limited to one or two sources.</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-6 font-mono text-green-400">high</td>
+              <td class="py-4 pr-6 text-slate-400">3+ reports from 3+ distinct platforms</td>
+              <td class="py-4 text-slate-400">Well-corroborated. Independent platforms have each independently confirmed violations.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</Layout>

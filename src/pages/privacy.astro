@@ -1,0 +1,283 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Privacy Commitment"
+  description="The DBBL Protocol never receives raw personal information. Identity signals are hashed before transmission — we store cryptographic fingerprints, not PII."
+>
+
+  <!-- Page header -->
+  <section class="pt-20 pb-12 px-6 border-b border-zinc-800/40">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-4">Privacy Commitment</div>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+        We Should Never Need to Know<br />Who Someone Is
+      </h1>
+      <p class="text-slate-400 text-lg max-w-3xl leading-relaxed">
+        The DBBL Protocol is designed around a core principle: identifying behavioral patterns
+        across platforms should never require centralizing personal identity.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-6 py-16 space-y-20">
+
+    <!-- Core principle -->
+    <section class="grid md:grid-cols-2 gap-12 items-start">
+      <div>
+        <h2 class="text-2xl font-bold text-white mb-4">No PII, Ever</h2>
+        <p class="text-slate-400 leading-relaxed mb-4">
+          Identity signals — phone numbers, email addresses — are hashed by the calling platform
+          before transmission. The DBBL Protocol receives only the hash. It has no mechanism to
+          reverse a hash to a real identity.
+        </p>
+        <p class="text-slate-400 leading-relaxed">
+          This is enforced by design, not policy. The API accepts hashes. It has no endpoints
+          that accept or return raw phone numbers or email addresses.
+        </p>
+      </div>
+
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8 font-mono text-sm">
+        <div class="text-xs text-slate-500 uppercase tracking-wider mb-4">Your platform sends</div>
+        <div class="space-y-2 mb-6">
+          <div>
+            <span class="text-slate-500">phoneHash:</span>
+            <span class="text-cyan-400 ml-2 break-all">a8f2c3e1b4d5...</span>
+          </div>
+          <div>
+            <span class="text-slate-500">emailHash:</span>
+            <span class="text-cyan-400 ml-2 break-all">7f3d9b2a1c4e...</span>
+          </div>
+        </div>
+        <div class="border-t border-zinc-800 pt-4">
+          <div class="text-xs text-slate-500 uppercase tracking-wider mb-2">DBBL never sees</div>
+          <div class="text-red-400/60 line-through text-xs space-y-1">
+            <div>+1 (555) 867-5309</div>
+            <div>user@example.com</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What is stored -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-8">What the Protocol Stores</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- What IS stored -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
+          <h3 class="font-semibold text-white mb-6 flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/30 flex items-center justify-center text-green-500 text-xs">✓</span>
+            What Is Stored
+          </h3>
+          <ul class="space-y-4 text-sm">
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-slate-300 mb-0.5">phoneHash</div>
+                <div class="text-slate-500">SHA-256 of the E.164-normalized phone number</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-slate-300 mb-0.5">emailHash</div>
+                <div class="text-slate-500">SHA-256 of the normalized email address</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-slate-300 mb-0.5">username</div>
+                <div class="text-slate-500">Lowercase, trimmed plaintext + SHA-256 hash. Required for fuzzy matching.</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-slate-300 mb-0.5">violationCategory</div>
+                <div class="text-slate-500">One of five enumerated categories (harassment, fake_profile, etc.)</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-slate-300 mb-0.5">severity + timestamps</div>
+                <div class="text-slate-500">Severity level and when the report was submitted</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-slate-300 mb-0.5">platformId</div>
+                <div class="text-slate-500">Which member platform submitted the report</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- What is NOT stored -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
+          <h3 class="font-semibold text-white mb-6 flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-red-500/15 border border-red-500/30 flex items-center justify-center text-red-400 text-xs">✗</span>
+            What Is Never Stored
+          </h3>
+          <ul class="space-y-4 text-sm">
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-red-400/70 mb-0.5 line-through">phone number</div>
+                <div class="text-slate-500">Raw phone numbers never transmitted to or stored by DBBL</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-red-400/70 mb-0.5 line-through">email address</div>
+                <div class="text-slate-500">Raw email addresses never transmitted to or stored by DBBL</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-red-400/70 mb-0.5 line-through">real name</div>
+                <div class="text-slate-500">Legal names, display names, and real names are never collected</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-red-400/70 mb-0.5 line-through">additionalContext</div>
+                <div class="text-slate-500">Freeform context submitted with reports is stored for human reviewers only — never returned via API</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-600 mt-0.5">→</span>
+              <div>
+                <div class="font-mono text-red-400/70 mb-0.5 line-through">IP address</div>
+                <div class="text-slate-500">No IP addresses or device identifiers collected from querying platforms' users</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hashing details -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-4">Hashing &amp; Normalization</h2>
+      <p class="text-slate-400 mb-8 max-w-3xl leading-relaxed">
+        Hash consistency is critical for cross-platform matching. If two platforms hash the same phone
+        number differently, they'll never match. The Protocol specifies normalization rules that all
+        platforms must apply before hashing.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
+          <h3 class="font-semibold text-white mb-4">Phone Numbers</h3>
+          <ol class="space-y-3 text-sm text-slate-400">
+            <li class="flex gap-3">
+              <span class="font-mono text-cyan-400">1.</span>
+              Strip all non-digit characters
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-cyan-400">2.</span>
+              If 10 digits, prepend <code class="bg-zinc-800 px-1 py-0.5 rounded font-mono text-xs">+1</code> (US numbers)
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-cyan-400">3.</span>
+              Ensure E.164 format: <code class="bg-zinc-800 px-1 py-0.5 rounded font-mono text-xs">+[country][number]</code>
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-cyan-400">4.</span>
+              Apply SHA-256 to the normalized string
+            </li>
+          </ol>
+          <div class="mt-6 pt-6 border-t border-zinc-800 font-mono text-xs text-slate-600">
+            <div><span class="text-slate-500">input:</span> (555) 867-5309</div>
+            <div><span class="text-slate-500">normalized:</span> +15558675309</div>
+            <div class="break-all"><span class="text-slate-500">hash:</span> sha256("+15558675309")</div>
+          </div>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
+          <h3 class="font-semibold text-white mb-4">Email Addresses</h3>
+          <ol class="space-y-3 text-sm text-slate-400">
+            <li class="flex gap-3">
+              <span class="font-mono text-cyan-400">1.</span>
+              Lowercase the entire address
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-cyan-400">2.</span>
+              For Gmail: remove dots from local part
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-cyan-400">3.</span>
+              For Gmail: remove <code class="bg-zinc-800 px-1 py-0.5 rounded font-mono text-xs">+tag</code> suffixes
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-cyan-400">4.</span>
+              Apply SHA-256 to the normalized string
+            </li>
+          </ol>
+          <div class="mt-6 pt-6 border-t border-zinc-800 font-mono text-xs text-slate-600">
+            <div><span class="text-slate-500">input:</span> User.Name+tag@gmail.com</div>
+            <div><span class="text-slate-500">normalized:</span> username@gmail.com</div>
+            <div class="break-all"><span class="text-slate-500">hash:</span> sha256("username@gmail.com")</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platform accountability -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-4">Platform Accountability</h2>
+      <p class="text-slate-400 max-w-3xl leading-relaxed mb-8">
+        The DBBL Protocol trusts that member platforms submit only confirmed violations.
+        This trust is not unlimited — it is tracked and weighted.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <div class="font-mono text-xs text-cyan-400 mb-3">TRUST TIERS</div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Platforms start as <strong class="text-slate-300">provisional</strong> with a trust score
+            of 0.5. Platforms that consistently submit accurate, confirmed reports move toward
+            <strong class="text-slate-300">standard</strong> and
+            <strong class="text-slate-300">trusted</strong> tiers.
+          </p>
+        </div>
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <div class="font-mono text-xs text-cyan-400 mb-3">WEIGHTED REPORTS</div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Every report is weighted by the submitting platform's trust score. A report from a
+            provisional platform (0.5) contributes half the weight of a report from a fully
+            trusted platform (1.0).
+          </p>
+        </div>
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <div class="font-mono text-xs text-cyan-400 mb-3">CONFIRMED ONLY</div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Only confirmed violations should be submitted. The DBBL Protocol is not a
+            report queue — it's a record of your platform's moderation decisions. Submit
+            only what you have already acted on.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="bg-zinc-900 border border-zinc-800 rounded-2xl p-10">
+      <h2 class="text-xl font-bold text-white mb-3">Questions or Concerns</h2>
+      <p class="text-slate-400 leading-relaxed mb-6">
+        If you have questions about how the DBBL Protocol handles data, or want to report a
+        concern about how a member platform is using the network, contact us.
+      </p>
+      <a href="mailto:privacy@dbblprotocol.org" class="font-mono text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
+        privacy@dbblprotocol.org
+      </a>
+    </section>
+
+  </div>
+</Layout>

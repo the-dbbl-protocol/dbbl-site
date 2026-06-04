@@ -1,0 +1,133 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'The DBBL Protocol is a cross-platform identity reputation network that helps platforms identify and block repeat bad actors before they cause harm.',
+  ogImage = '/og.png',
+} = Astro.props;
+
+const fullTitle = title === 'Home'
+  ? 'The DBBL Protocol — Cross-Platform Identity Reputation'
+  : `${title} — The DBBL Protocol`;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en" class="bg-zinc-950">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-zinc-950 text-slate-200 antialiased min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-zinc-800/60 bg-zinc-950/90 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2 group">
+        <img src="/favicon.svg" alt="" class="w-6 h-6" />
+        <span class="font-mono font-bold text-cyan-400 tracking-tight group-hover:text-cyan-300 transition-colors">DBBL</span>
+        <span class="text-slate-400 text-sm font-medium tracking-wide">Protocol</span>
+      </a>
+
+      <!-- Nav -->
+      <nav class="hidden md:flex items-center gap-8 text-sm text-slate-400">
+        <a href="/scoring" class="hover:text-white transition-colors">Scoring Model</a>
+        <a href="/privacy" class="hover:text-white transition-colors">Privacy</a>
+        <a href="/docs" class="hover:text-white transition-colors">API Docs</a>
+      </nav>
+
+      <!-- CTA -->
+      <a
+        href="/access"
+        class="bg-cyan-400 text-zinc-950 text-sm font-semibold px-4 py-2 rounded-md hover:bg-cyan-300 transition-colors"
+      >
+        Request Access
+      </a>
+    </div>
+  </header>
+
+  <!-- Page content -->
+  <main class="flex-1">
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-zinc-800/60 mt-24">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <!-- Brand -->
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <img src="/favicon.svg" alt="" class="w-5 h-5" />
+            <span class="font-mono font-bold text-cyan-400 text-sm">DBBL Protocol</span>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed">
+            Cross-platform identity reputation for safer online communities.
+          </p>
+          <p class="text-slate-600 text-xs mt-4">
+            &copy; {new Date().getFullYear()} The DBBL Protocol.<br />
+            All rights reserved.
+          </p>
+        </div>
+
+        <!-- Links -->
+        <div>
+          <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Protocol</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/scoring" class="text-slate-400 hover:text-white transition-colors">Scoring Model</a></li>
+            <li><a href="/privacy" class="text-slate-400 hover:text-white transition-colors">Privacy Commitment</a></li>
+            <li><a href="/docs" class="text-slate-400 hover:text-white transition-colors">API Reference</a></li>
+            <li><a href="/access" class="text-slate-400 hover:text-white transition-colors">Request Access</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Contact</h3>
+          <ul class="space-y-2 text-sm">
+            <li>
+              <a href="mailto:hello@dbblprotocol.org" class="text-slate-400 hover:text-white transition-colors font-mono text-xs">
+                hello@dbblprotocol.org
+              </a>
+            </li>
+          </ul>
+          <p class="text-slate-600 text-xs mt-6 leading-relaxed">
+            Hosted on Cloudflare.<br />
+            API base: <span class="font-mono">api.dbblprotocol.org</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
