@@ -25,12 +25,20 @@ import Layout from '../layouts/Layout.astro';
     <div class="md:col-span-3">
       <h2 class="text-xl font-bold text-white mb-8">Platform Application</h2>
 
-      <form
-        action="mailto:access@dbblprotocol.org"
-        method="POST"
-        enctype="text/plain"
-        class="space-y-6"
-      >
+      <div id="form-success" class="hidden rounded-xl border border-cyan-500/30 bg-cyan-500/5 p-8 text-center">
+        <div class="text-cyan-400 font-mono text-sm tracking-widest uppercase mb-3">Application Received</div>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          We'll review your application and reach out if it looks like a good fit.
+          Check your inbox for a confirmation email.
+        </p>
+      </div>
+
+      <div id="form-error" class="hidden rounded-xl border border-red-500/30 bg-red-500/5 p-4 text-sm text-red-400">
+        Something went wrong submitting your application. Please try again or email
+        <a href="mailto:access@dbblprotocol.org" class="underline">access@dbblprotocol.org</a> directly.
+      </div>
+
+      <form id="access-form" class="space-y-6" novalidate>
         <div>
           <label for="platform-name" class="block text-sm font-medium text-slate-300 mb-2">
             Platform Name <span class="text-red-400">*</span>
@@ -38,7 +46,7 @@ import Layout from '../layouts/Layout.astro';
           <input
             type="text"
             id="platform-name"
-            name="Platform Name"
+            name="platform-name"
             required
             placeholder="e.g. Jaydslist"
             class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors text-sm"
@@ -52,7 +60,7 @@ import Layout from '../layouts/Layout.astro';
           <input
             type="url"
             id="website"
-            name="Website"
+            name="website"
             required
             placeholder="https://yourplatform.com"
             class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors text-sm"
@@ -66,7 +74,7 @@ import Layout from '../layouts/Layout.astro';
           <input
             type="email"
             id="contact-email"
-            name="Contact Email"
+            name="contact-email"
             required
             placeholder="admin@yourplatform.com"
             class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors text-sm"
@@ -79,7 +87,7 @@ import Layout from '../layouts/Layout.astro';
           </label>
           <select
             id="platform-type"
-            name="Platform Type"
+            name="platform-type"
             required
             class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-cyan-500 transition-colors text-sm appearance-none"
           >
@@ -99,7 +107,7 @@ import Layout from '../layouts/Layout.astro';
           </label>
           <textarea
             id="use-case"
-            name="Use Case"
+            name="use-case"
             required
             rows="5"
             placeholder="Describe your moderation program, the types of violations you handle, and how you plan to integrate DBBL — both querying scores and submitting violations..."
@@ -117,7 +125,7 @@ import Layout from '../layouts/Layout.astro';
           </label>
           <select
             id="monthly-users"
-            name="Monthly Active Users"
+            name="monthly-users"
             class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-cyan-500 transition-colors text-sm appearance-none"
           >
             <option value="" disabled selected>Select a range...</option>
@@ -130,15 +138,15 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <button
+          id="submit-btn"
           type="submit"
-          class="w-full bg-cyan-400 text-zinc-950 font-semibold py-3.5 rounded-lg hover:bg-cyan-300 transition-colors text-sm"
+          class="w-full bg-cyan-400 text-zinc-950 font-semibold py-3.5 rounded-lg hover:bg-cyan-300 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Submit Application
         </button>
 
         <p class="text-xs text-slate-600 text-center">
-          Submitting opens your email client pre-filled with your responses.
-          Alternatively, send your application directly to
+          Questions before applying? Email us at
           <a href="mailto:access@dbblprotocol.org" class="text-slate-500 hover:text-slate-400 transition-colors font-mono">access@dbblprotocol.org</a>.
         </p>
       </form>
@@ -214,4 +222,43 @@ import Layout from '../layouts/Layout.astro';
     </div>
 
   </div>
+  <script>
+    const form = document.getElementById('access-form') as HTMLFormElement;
+    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+    const successEl = document.getElementById('form-success') as HTMLDivElement;
+    const errorEl = document.getElementById('form-error') as HTMLDivElement;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting…';
+
+      const data = new FormData(form);
+
+      try {
+        const res = await fetch('https://dbbl-api.thedbblprotocol.workers.dev/v1/access-requests', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            platformName: data.get('platform-name'),
+            website: data.get('website'),
+            contactEmail: data.get('contact-email'),
+            platformType: data.get('platform-type'),
+            useCase: data.get('use-case'),
+            monthlyActiveUsers: data.get('monthly-users') || undefined,
+          }),
+        });
+
+        if (!res.ok) throw new Error(`${res.status}`);
+
+        form.classList.add('hidden');
+        successEl.classList.remove('hidden');
+      } catch {
+        errorEl.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Application';
+      }
+    });
+  </script>
 </Layout>
