@@ -82,6 +82,19 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div>
+          <label for="contact-phone" class="block text-sm font-medium text-slate-300 mb-2">
+            Phone <span class="text-slate-500 font-normal">(optional — for follow-up questions)</span>
+          </label>
+          <input
+            type="tel"
+            id="contact-phone"
+            name="contact-phone"
+            placeholder="+1 555 000 0000"
+            class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors text-sm"
+          />
+        </div>
+
+        <div>
           <label for="platform-type" class="block text-sm font-medium text-slate-300 mb-2">
             Platform Type <span class="text-red-400">*</span>
           </label>
@@ -181,9 +194,10 @@ import Layout from '../layouts/Layout.astro';
           <li class="flex gap-4">
             <span class="flex-shrink-0 w-7 h-7 rounded-full bg-cyan-400/15 border border-cyan-400/30 flex items-center justify-center text-xs font-mono font-bold text-cyan-400">3</span>
             <div>
-              <div class="font-semibold text-white text-sm mb-1">API Key Issued</div>
+              <div class="font-semibold text-white text-sm mb-1">Portal Access & API Keys</div>
               <p class="text-slate-400 text-sm leading-relaxed">
-                You'll receive a one-time API key to begin integration. All platforms start as
+                You'll receive a link to set up your platform portal account, where you can generate
+                and manage API keys for production and development. All platforms start as
                 <span class="font-mono text-slate-300">provisional</span> with a trust score of 0.5.
               </p>
             </div>
@@ -247,6 +261,7 @@ import Layout from '../layouts/Layout.astro';
             platformType: data.get('platform-type'),
             useCase: data.get('use-case'),
             monthlyActiveUsers: data.get('monthly-users') || undefined,
+            phone: data.get('contact-phone') || undefined,
           }),
         });
 
