@@ -150,6 +150,11 @@ import Layout from '../layouts/Layout.astro';
           </select>
         </div>
 
+        <!-- Honeypot — hidden from humans, filled by bots -->
+        <div style="display:none" aria-hidden="true">
+          <input type="text" name="website_url" tabindex="-1" autocomplete="off" />
+        </div>
+
         <button
           id="submit-btn"
           type="submit"
@@ -262,6 +267,7 @@ import Layout from '../layouts/Layout.astro';
             useCase: data.get('use-case'),
             monthlyActiveUsers: data.get('monthly-users') || undefined,
             phone: data.get('contact-phone') || undefined,
+            honeypot: data.get('website_url') || undefined,
           }),
         });
 
