@@ -31,20 +31,19 @@ Separate repo from the API — no backend logic here.
 - /scoring — Scoring transparency (ratings, weights, severity, decay)
 - /privacy — Privacy commitment (no PII, hashes only)
 - /docs — API reference (endpoints, auth, request/response examples)
-- /access — Request access form
+- /access — Request access form (posts to dbbl-api)
 
-## Access Form
-Posts to the dbbl-api Worker or mailto fallback.
-API lives at: dbbl-api.thedbblprotocol.workers.dev (canonical: dbblprotocol.org/api eventually)
+## API
+- Base URL: `https://api.dbblprotocol.org`
+- Access form posts to dbbl-api Worker endpoint
 
 ## Related Projects
-- **dbbl-api** — the actual Hono/Cloudflare Workers API at ~/projects/dbbl-api
+- **dbbl-api** — Hono/Cloudflare Workers API at ~/projects/dbbl-api
+- **dbbl-admin** — internal admin panel at ~/projects/dbbl-admin
+- **dbbl-portal** — platform self-service portal at ~/projects/dbbl-portal
 - **Enclave Tickets** — consumer platform (team-insatiable/enclave-tickets)
 - **Jaydslist** — consumer platform (team-insatiable/jaydslist)
 - **Reakyn** — consumer platform (team-insatiable/reakyn)
 
 ## Current Status
-Site fully built and deployed. Auto-deploy wired up.
-Immediate next tasks:
-- Audit all email addresses referenced in the site and set up mail flow
-- Wire access form to dbbl-api Worker endpoint (or confirm mailto fallback is in place)
+Site fully built and deployed. Auto-deploy wired up. Access form wired to dbbl-api.
