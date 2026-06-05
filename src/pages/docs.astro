@@ -15,7 +15,6 @@ import Layout from '../layouts/Layout.astro';
         <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Reference</div>
         <a href="#authentication" class="block text-slate-400 hover:text-white transition-colors py-1">Authentication</a>
         <a href="#health" class="block text-slate-400 hover:text-white transition-colors py-1">Health Check</a>
-        <a href="#register" class="block text-slate-400 hover:text-white transition-colors py-1">Register Platform</a>
         <a href="#scores" class="block text-slate-400 hover:text-white transition-colors py-1">Query Score</a>
         <a href="#reports" class="block text-slate-400 hover:text-white transition-colors py-1">Submit Report</a>
         <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 mt-6">Reference</div>
@@ -44,9 +43,10 @@ import Layout from '../layouts/Layout.astro';
       <section id="authentication">
         <h2 class="text-2xl font-bold text-white mb-4">Authentication</h2>
         <p class="text-slate-400 mb-6 leading-relaxed">
-          All endpoints except <code class="bg-zinc-900 border border-zinc-800 px-1.5 py-0.5 rounded font-mono text-sm">GET /v1/health</code> and
-          <code class="bg-zinc-900 border border-zinc-800 px-1.5 py-0.5 rounded font-mono text-sm">POST /v1/platforms/register</code> require
-          a Bearer token obtained when your platform registered.
+          All endpoints except <code class="bg-zinc-900 border border-zinc-800 px-1.5 py-0.5 rounded font-mono text-sm">GET /v1/health</code> require
+          a Bearer token. API keys are generated via your platform portal at
+          <a href="https://portal.dbblprotocol.org" class="text-cyan-400 hover:text-cyan-300">portal.dbblprotocol.org</a>
+          after your access request is approved.
         </p>
 
         <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
@@ -57,8 +57,8 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="mt-4 bg-amber-400/5 border border-amber-400/20 rounded-xl p-5 text-sm text-slate-400">
-          <strong class="text-amber-400">Important:</strong> API keys are shown once at registration and cannot be retrieved again.
-          Store yours securely. If lost, contact us to revoke and re-issue.
+          <strong class="text-amber-400">Note:</strong> Production and development keys are managed separately in the portal.
+          Development key submissions are tagged as test data and excluded from scoring.
         </div>
       </section>
 
@@ -77,66 +77,6 @@ import Layout from '../layouts/Layout.astro';
           <pre class="p-6 text-sm font-mono overflow-x-auto"><code class="text-slate-300">{"{"}"status": "ok",
  "version": "1",
  "timestamp": "2025-06-04T12:00:00.000Z"{"}"}</code></pre>
-        </div>
-      </section>
-
-      <!-- Register -->
-      <section id="register">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="bg-blue-500/15 text-blue-400 font-mono text-xs font-bold px-2.5 py-1 rounded border border-blue-500/30">POST</span>
-          <h2 class="text-2xl font-bold text-white font-mono">/v1/platforms/register</h2>
-        </div>
-        <p class="text-slate-400 mb-6">
-          Register a new platform. Returns a one-time API key — store it immediately, it cannot be retrieved again.
-          No authentication required.
-        </p>
-
-        <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">Request Body</h3>
-        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden mb-6">
-          <div class="px-4 py-2 border-b border-zinc-800">
-            <span class="text-xs font-mono text-slate-500">application/json</span>
-          </div>
-          <pre class="p-6 text-sm font-mono overflow-x-auto"><code class="text-slate-300">{"{"}"name": "Jaydslist",
- "website": "https://jaydslist.com",
- "contactEmail": "admin@jaydslist.com"{"}"}</code></pre>
-        </div>
-
-        <div class="overflow-x-auto mb-6">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="border-b border-zinc-800 text-left">
-                <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider pr-6">Field</th>
-                <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider pr-6">Type</th>
-                <th class="pb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Notes</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-zinc-800/50">
-              <tr>
-                <td class="py-3 pr-6 font-mono text-slate-300">name</td>
-                <td class="py-3 pr-6 font-mono text-slate-500">string</td>
-                <td class="py-3 text-slate-400">Your platform's display name</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-6 font-mono text-slate-300">website</td>
-                <td class="py-3 pr-6 font-mono text-slate-500">url</td>
-                <td class="py-3 text-slate-400">Must be a valid HTTPS URL</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-6 font-mono text-slate-300">contactEmail</td>
-                <td class="py-3 pr-6 font-mono text-slate-500">email</td>
-                <td class="py-3 text-slate-400">Used for account notices</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">Response 201</h3>
-        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
-          <pre class="p-6 text-sm font-mono overflow-x-auto"><code class="text-slate-300">{"{"}"success": true,
- "platformId": "plat_01abc...",
- "apiKey": "dbbl_abc123...",
- "tier": "provisional",
- "status": "active"{"}"}</code></pre>
         </div>
       </section>
 
