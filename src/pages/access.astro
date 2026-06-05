@@ -155,6 +155,9 @@ import Layout from '../layouts/Layout.astro';
           <input type="text" name="website_url" tabindex="-1" autocomplete="off" />
         </div>
 
+        <!-- Cloudflare Turnstile -->
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADfIjctz5JbTLjvh" data-theme="dark"></div>
+
         <button
           id="submit-btn"
           type="submit"
@@ -241,6 +244,7 @@ import Layout from '../layouts/Layout.astro';
     </div>
 
   </div>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script>
     const form = document.getElementById('access-form') as HTMLFormElement;
     const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
@@ -268,6 +272,7 @@ import Layout from '../layouts/Layout.astro';
             monthlyActiveUsers: data.get('monthly-users') || undefined,
             phone: data.get('contact-phone') || undefined,
             honeypot: data.get('website_url') || undefined,
+            turnstileToken: (document.querySelector('[name="cf-turnstile-response"]') as HTMLInputElement)?.value || '',
           }),
         });
 
