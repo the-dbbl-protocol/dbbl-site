@@ -4,6 +4,14 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Home">
 
+<!-- Sentry test — remove after confirming -->
+<button id="sentry-test" style="position:fixed;bottom:1rem;right:1rem;z-index:9999;background:#ef4444;color:white;padding:0.5rem 1rem;border-radius:0.375rem;font-size:0.75rem;cursor:pointer;">Test Sentry</button>
+<script>
+  document.getElementById('sentry-test')?.addEventListener('click', () => {
+    throw new Error('Sentry test error');
+  });
+</script>
+
   <!-- Hero -->
   <section class="relative pt-28 pb-24 px-6 text-center overflow-hidden">
     <!-- Glow -->
