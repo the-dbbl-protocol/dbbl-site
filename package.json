@@ -11,6 +11,7 @@
     "deploy": "astro build && wrangler pages deploy"
   },
   "dependencies": {
+    "@sentry/astro": "^10.56.0",
     "astro": "^5.8.0"
   },
   "devDependencies": {
