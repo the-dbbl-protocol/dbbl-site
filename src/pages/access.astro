@@ -260,7 +260,7 @@ import Layout from '../layouts/Layout.astro';
       const data = new FormData(form);
 
       try {
-        const res = await fetch('https://dbbl-api.t13l.workers.dev/v1/access-requests', {
+        const res = await fetch('https://api.dbblprotocol.org/v1/access-requests', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
