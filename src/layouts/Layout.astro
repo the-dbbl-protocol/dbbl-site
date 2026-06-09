@@ -46,6 +46,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 </head>
 
+<script>
+  import * as Sentry from '@sentry/browser';
+  Sentry.init({
+    dsn: 'https://de87fccee752dca5b473187aaaec13b1@o4511534164279297.ingest.us.sentry.io/4511534218412032',
+  });
+</script>
+
 <body class="bg-zinc-950 text-slate-200 antialiased min-h-screen flex flex-col">
 
   <!-- Header -->
